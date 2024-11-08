@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Universidades Licenciadas en Perú</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="formulario">
+        <h1 class="titulo">Buscar Universidad</h1>
+        <form action="/cgi-bin/buscarDatosUniversidades.pl" method="post">
+            <div class="input-part">
+                <label for="nombre">Nombre de la universidad:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre">
+            </div>
+            <button type="submit" class="buscar">Buscar</button>
+        </form>
+    </div>
+</body>
+</html>
