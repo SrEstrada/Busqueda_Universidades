@@ -1,32 +1,55 @@
 body {
     font-family: sans-serif;
+    background: url("fondo.png") no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background-image: url('fondo.png');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    padding-top: 50px;
 }
 
 .formulario {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.85);
     width: 320px;
     padding: 24px;
     border-radius: 16px;
-    border: solid 2px rgba(255, 255, 255, 0.2);
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
-    color: white;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.15);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .titulo {
     text-align: center;
-    color: white;
-    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #0056b3;
+}
+
+.input-part input, .input-part select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.buscar {
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.buscar:hover {
+    background-color: #003d80;
 }
