@@ -1,7 +1,5 @@
-paso 1: Copiar este comando para crear la imagen.
+docker build -f dockerfile -t universidades .  
+docker run -d -p 8130:80 -p 2202:22 --name cminideb5 universidades
 
-docker build -t universidades .
-
-paso 2: copiar este comando para crear el contenerdor.
-
-docker run -d --name myweb1 -p 8130:80 universidades
+http://172.25.80.1:8130/
+https://github.com/SrEstrada/Expresiones_Regulares.git
