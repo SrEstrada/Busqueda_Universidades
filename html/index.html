@@ -10,9 +10,25 @@
     <div class="formulario">
         <h1 class="titulo">Buscar Universidad</h1>
         <form action="/cgi-bin/buscarDatosUniversidades.pl" method="post">
+            <!-- Criterio 1: Nombre de la Universidad -->
             <div class="input-part">
                 <label for="nombre">Nombre de la universidad:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre">
+            </div>
+            <!-- Criterio 2: Periodo de Licenciamiento -->
+            <div class="input-part">
+                <label for="periodo">Periodo de Licenciamiento:</label>
+                <input type="text" id="periodo" name="periodo" placeholder="Ejemplo: 2018-2020">
+            </div>
+            <!-- Criterio 3: Departamento Local -->
+            <div class="input-part">
+                <label for="departamento">Departamento Local:</label>
+                <input type="text" id="departamento" name="departamento" placeholder="Ejemplo: Lima">
+            </div>
+            <!-- Criterio 4: Denominación Programa -->
+            <div class="input-part">
+                <label for="denominacion">Denominación del Programa:</label>
+                <input type="text" id="denominacion" name="denominacion" placeholder="Ejemplo: Ingeniería">
             </div>
             <button type="submit" class="buscar">Buscar</button>
         </form>
