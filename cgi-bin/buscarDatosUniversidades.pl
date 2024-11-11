@@ -17,7 +17,7 @@ utf8::decode($licPeriod);
 utf8::decode($depLocal);
 utf8::decode($pName);
 
-my $archivo = '../lab09/ProgramasdeUniversidades.csv';
+my $archivo = '../ProgramasdeUniversidades.csv';
 
 open my $fh, '<', $archivo or die "No soportó";
 
