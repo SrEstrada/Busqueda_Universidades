@@ -1,57 +1,104 @@
-#!/usr/bin/perl
+#!"C:/xampp/perl/bin/perl.exe"
 use strict;
 use warnings;
 use CGI;
 use Text::CSV;
+use utf8;
 
-# Crear objeto CGI
-my $q = CGI->new;
+my $cgi = new CGI;
 
-# Capturar parámetros del formulario
-my $nombre = $q->param('nombre') || '';
-my $periodo = $q->param('periodo') || '';
-my $departamento = $q->param('departamento') || '';
-my $tipo_gestion = $q->param('gestion') || '';
+my $uniName   = $cgi->param('universityName')   || qr/.*/;
+my $licPeriod = $cgi->param('licencePeriod')    || qr/.*/;
+my $depLocal  = $cgi->param('localDepartment')  || qr/.*/;
+my $pName     = $cgi->param('programName')      || qr/.*/;
 
-# Verificar si al menos un campo tiene datos
-unless ($nombre || $periodo || $departamento || $tipo_gestion) {
-    print $q->header('text/html; charset=UTF-8');
-    print "<p>Error: Debe ingresar al menos un criterio de búsqueda.</p>";
-    exit;
-}
+utf8::decode($uniName);
+utf8::decode($licPeriod);
+utf8::decode($depLocal);
+utf8::decode($pName);
 
-# Especificar la ruta del archivo CSV
-my $csv_file = "/cgi-bin/Programas de Universidades.csv";
+my $archivo = '../lab09/ProgramasdeUniversidades.csv';
 
-# Crear el objeto CSV
-my $csv = Text::CSV->new({ binary => 1, sep_char => '|' }) or die "Error al crear CSV: " . Text::CSV->error_diag();
+open my $fh, '<', $archivo or die "No soportó";
 
-# Abrir archivo CSV
-open my $fh, '<', $csv_file or die "No se pudo abrir el archivo '$csv_file': $!";
+my $csv = Text::CSV->new({ binary => 1, sep_char => '|'});
 
-# Imprimir encabezado HTML
-print $q->header('text/html; charset=UTF-8');
-print "<html><head><title>Resultados de Búsqueda</title></head><body>";
-print "<h1>Resultados de la Búsqueda</h1>";
-print "<table border='1'><tr><th>Nombre</th><th>Periodo</th><th>Departamento</th><th>Gestión</th></tr>";
-
-# Leer y filtrar los datos
-while (my $row = $csv->getline($fh)) {
-    my ($csv_nombre, $csv_periodo, $csv_departamento, $csv_gestion) = @$row;
-
-    # Filtrar los resultados
-    if (($nombre eq '' || $csv_nombre =~ /\Q$nombre\E/i) &&
-        ($periodo eq '' || $csv_periodo =~ /\Q$periodo\E/i) &&
-        ($departamento eq '' || $csv_departamento =~ /\Q$departamento\E/i) &&
-        ($tipo_gestion eq '' || $csv_gestion =~ /\Q$tipo_gestion\E/i)) {
-        
-        # Imprimir resultado en tabla
-        print "<tr><td>$csv_nombre</td><td>$csv_periodo</td><td>$csv_departamento</td><td>$csv_gestion</td></tr>";
+my $tableKey = "";
+if (my $fila = $csv->getline($fh)) {
+    my @selectedValues = map { $fila->[$_] } (1, 4, 10, 16);
+    for my $valor (@selectedValues) {
+        $tableKey .= "<th>$valor</th>\n";
     }
 }
 
-# Cerrar tabla y HTML
-print "</table></body></html>";
+my $tableValues = "";
+my $coincidenciasTotales = 0;
 
-# Cerrar archivo CSV
-close $fh or warn "No se pudo cerrar el archivo '$csv_file': $!";
+while(my $fila = $csv->getline($fh)){
+    my @selectedValues = map { $fila->[$_] } (1, 4, 10, 16);
+    if($selectedValues[0] =~ /$uniName/i && $selectedValues[1] =~ /$licPeriod/i && $selectedValues[2] =~ /$depLocal/i && $selectedValues[3] =~ /$pName/i){
+        $tableValues .= "<tr>";
+        for my $valor (@selectedValues) {
+            $tableValues .= "<td>$valor</td>\n";
+        }
+        $tableValues .= "</tr>";
+        $coincidenciasTotales++;
+    }
+}
+close $fh;
+$coincidenciasTotales = "Existen $coincidenciasTotales resultados de búsqueda";
+
+print $cgi->header('text/html');
+
+print <<HTML;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados Búsqueda</title>
+    <style>
+        *{
+            font-family: 'Open Sans', sans-serif;
+            background-color: #31304D;
+        }
+        table {
+            border: solid 2px;
+            width: 100%;
+            background-color: #161A30;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 8px;
+            border: solid 2px;
+            background-color: #B6BBC4;
+        }
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #e9e5cf;
+        }
+        a{
+            text-decoration: none;
+        }
+        a:visited{
+            color: #e9e5cf;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>$coincidenciasTotales</h2>
+        <h2><a href="../../lab09/index.html">Para volver a buscar, presione aquí</a></h2>
+        <h1>Resultados de la Búsqueda</h1>
+    </div>
+    <table>
+        <tr>$tableKey</tr>
+        $tableValues
+    </table>
+</body>
+</html>
+HTML
+

@@ -1,25 +1,25 @@
-FROM bitnami/minideb
+# Usa una imagen base de Apache con Perl
+FROM httpd:2.4
 
-ENV DEBIAN_FRONTEND="noninteractive"
-
+# Copia el archivo de configuración para habilitar CGI
 RUN apt-get update && \
-    apt-get install -y apache2 perl libcgi-pm-perl libtext-csv-perl && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y perl && \
+    apt-get clean
 
-RUN a2enmod cgid
+# Habilita CGI en Apache
+RUN sed -i '/^#LoadModule cgi_module/ s/^#//' /usr/local/apache2/conf/httpd.conf
+RUN echo "ScriptAlias /cgi-bin/ /usr/local/apache2/cgi-bin/" >> /usr/local/apache2/conf/httpd.conf
+RUN echo "<Directory \"/usr/local/apache2/cgi-bin\">\n    AllowOverride None\n    Options +ExecCGI\n    Require all granted\n</Directory>" >> /usr/local/apache2/conf/httpd.conf
 
-RUN mkdir -p /usr/lib/cgi-bin /var/www/index.html
+# Copia los archivos en sus respectivas ubicaciones
+COPY cgi-bin/ /usr/local/apache2/cgi-bin/
+COPY htdocs/ /usr/local/apache2/htdocs/
 
-COPY ./cgi-bin/ /usr/lib/cgi-bin/
-COPY ./index.html/ /var/www/index.html/
+# Da permisos de ejecución al script Perl en cgi-bin
+RUN chmod +x /usr/local/apache2/cgi-bin/buscarDatosUniversidades.pl
 
-RUN chmod +x /usr/lib/cgi-bin/*.pl && \
-    chmod -R 755 /usr/lib/cgi-bin/* && \
-    chmod 755 /var/www/*.index.html
-    
-RUN chmod -R 755 /var/www/index.html
-
+# Exponer el puerto 80 para el servidor Apache
 EXPOSE 80
 
-CMD ["apachectl", "-D", "FOREGROUND"]
+# Inicia Apache
+CMD ["httpd-foreground"]
