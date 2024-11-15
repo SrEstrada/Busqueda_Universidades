@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultas</title>
-    <link href="../css/style.css" rel="stylesheet">
+    <title>Búsqueda de Universidades</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <main>
-        <h1>Consultas</h1>
-            <form method="post" action="../cgi-bin/buscarDatosUniversidades.pl">
-                <div class="content">
-                    <input type="text" name="universityName" class="bar" placeholder="Nombre de universidad">
-                    <input type="text" name="licencePeriod" class="bar" placeholder="Periodo de licenciamiento">
-                    <input type="text" name="localDepartment" class="bar" placeholder="Departamento local">
-                    <input type="text" name="programName" class="bar" placeholder="Nombre de programa">
-                    <input type="submit" value="Consultar" class="button">
-                </div>
-            </form>
-    </main>
+    <h1>Búsqueda de Universidades</h1>
+    <form action="../cgi-bin/buscarDatosUniversidades.pl" method="post">
+        <label for="nombre">Nombre Universidad:</label>
+        <input type="text" id="nombre" name="nombre"><br>
+        <label for="periodo">Periodo Licenciamiento:</label>
+        <input type="text" id="periodo" name="periodo"><br>
+        <label for="departamento">Departamento Local:</label>
+        <input type="text" id="departamento" name="departamento"><br>
+        <label for="denominacion">Denominación Programa:</label>
+        <input type="text" id="denominacion" name="denominacion"><br>
+        <input type="submit" value="Buscar">
+    </form>
 </body>
 </html>
