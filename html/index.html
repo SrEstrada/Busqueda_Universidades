@@ -2,21 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Búsqueda de Universidades</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Buscador de Universidades</title>
 </head>
 <body>
-    <h1>Búsqueda de Universidades</h1>
-    <form action="../cgi-bin/buscarDatosUniversidades.pl" method="post">
-        <label for="nombre">Nombre Universidad:</label>
-        <input type="text" id="nombre" name="nombre"><br>
-        <label for="periodo">Periodo Licenciamiento:</label>
-        <input type="text" id="periodo" name="periodo"><br>
-        <label for="departamento">Departamento Local:</label>
-        <input type="text" id="departamento" name="departamento"><br>
-        <label for="denominacion">Denominación Programa:</label>
-        <input type="text" id="denominacion" name="denominacion"><br>
-        <input type="submit" value="Buscar">
-    </form>
+    <header>
+        <h1>Buscador de Universidades Licenciadas</h1>
+    </header>
+    <main>
+        <form action="/cgi-bin/buscarDatosUniversidades.pl" method="GET">
+            <label for="nombre_uni">Nombre de la Universidad:</label>
+            <input type="text" id="nombre_uni" name="nombre_uni">
+            
+            <label for="periodo_lic">Periodo de Licenciamiento:</label>
+            <input type="text" id="periodo_lic" name="periodo_lic">
+            
+            <label for="departamento_loc">Departamento Local:</label>
+            <input type="text" id="departamento_loc" name="departamento_loc">
+            
+            <label for="denominacion_prog">Denominación del Programa:</label>
+            <input type="text" id="denominacion_prog" name="denominacion_prog">
+            
+            <button type="submit">Buscar</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 - Sistema de Búsqueda de Universidades</p>
+    </footer>
 </body>
 </html>
